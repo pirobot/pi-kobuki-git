@@ -1,0 +1,23 @@
+<launch>
+
+  <!-- Run the map server with the desired map -->
+  <node name="map_server" pkg="map_server" type="map_server" args="$(find piko_gazebo)/maps/segway_playpen.yaml" />
+
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen" clear_params="true">
+    <remap from="cmd_vel" to="/segway/navigation/cmd_vel" />
+    
+    <rosparam file="$(find piko_gazebo)/config/sibot/no_layers/base_planner_params.yaml" command="load" />
+    <rosparam file="$(find piko_gazebo)/config/sibot/no_layers/move_base_params.yaml" command="load" />
+    
+    <rosparam file="$(find piko_gazebo)/config/sibot/no_layers/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find piko_gazebo)/config/sibot/no_layers/costmap_common_params.yaml" command="load" ns="local_costmap" />
+    
+    <!-- Load global navigation specific parameters -->
+    <rosparam file="$(find piko_gazebo)/config/sibot/no_layers/global/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find piko_gazebo)/config/sibot/no_layers/global/global_costmap_params.yaml" command="load" />
+    
+  </node>
+  
+  <include file="$(find piko_gazebo)/launch/sibot/amcl_node.launch" />
+  
+</launch>

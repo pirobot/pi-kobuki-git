@@ -1,0 +1,12 @@
+<!--
+  Robot description only (used in private and paired master).
+ -->
+<launch>
+  <arg name="base"/>
+  <arg name="stacks"/>
+  <arg name="3d_sensor"/>
+  
+  <arg name="urdf_file" default="$(find xacro)/xacro.py '$(find piko_description)/urdf/piko_hexagons_laser.urdf.xacro'" />
+  <param name="robot_description" command="$(arg urdf_file)" />
+
+</launch>

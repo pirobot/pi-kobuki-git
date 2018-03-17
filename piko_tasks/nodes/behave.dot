@@ -1,0 +1,30 @@
+digraph behave {
+graph [fontname="times-roman"];
+node [fontname="times-roman"];
+edge [fontname="times-roman"];
+Behave [fontcolor=black, shape=box, fontsize=11, style=filled, fillcolor=orange];
+Startup [fontcolor=black, shape=octagon, fontsize=11, style=filled, fillcolor=cyan];
+Behave -> Startup;
+CheckServosReady [fontcolor=black, shape=ellipse, fontsize=11, style=filled, fillcolor=gray];
+Startup -> CheckServosReady;
+InitServos [fontcolor=black, shape=ellipse, fontsize=11, style=filled, fillcolor=gray];
+Startup -> InitServos;
+ServoTasks [fontcolor=black, shape=box, fontsize=11, style=filled, fillcolor=orange];
+Behave -> ServoTasks;
+CenterHead [fontcolor=black, shape=ellipse, fontsize=11, style=filled, fillcolor=gray];
+ServoTasks -> CenterHead;
+PanHead [fontcolor=black, shape=ellipse, fontsize=11, style=filled, fillcolor=gray];
+ServoTasks -> PanHead;
+RelaxServos [fontcolor=black, shape=ellipse, fontsize=11, style=filled, fillcolor=gray];
+ServoTasks -> RelaxServos;
+MoveBaseTasks [fontcolor=black, shape=box, fontsize=11, style=filled, fillcolor=orange];
+Behave -> MoveBaseTasks;
+"Rotate 45 degrees" [fontcolor=black, shape=ellipse, fontsize=11, style=filled, fillcolor=gray];
+MoveBaseTasks -> "Rotate 45 degrees";
+"Timer 3.0" [fontcolor=black, shape=ellipse, fontsize=11, style=filled, fillcolor=gray];
+MoveBaseTasks -> "Timer 3.0";
+"Rotate -45 degrees" [fontcolor=black, shape=ellipse, fontsize=11, style=filled, fillcolor=gray];
+MoveBaseTasks -> "Rotate -45 degrees";
+"Timer 3.0*" [fontcolor=black, shape=ellipse, fontsize=11, style=filled, fillcolor=gray];
+Behave -> "Timer 3.0*";
+}

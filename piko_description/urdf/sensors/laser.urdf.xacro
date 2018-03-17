@@ -1,0 +1,138 @@
+<?xml version="1.0"?>
+
+<robot name="laser" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- A box-and-cylinder model of the Hokuyo URG-04LX-UG01 laser scanner -->
+     
+  <!-- Define the laser macro -->
+  <xacro:macro name="sensor_laser" params="parent *origin">
+    <joint name="${parent}_laser_bottom_joint" type="fixed">
+      <xacro:insert_block name="origin" />
+      <parent link="${parent}"/>
+      <child link="base_laser_bottom"/>
+    </joint>
+    
+   <link name="base_laser_bottom">
+	 <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <box size="0.05 0.05 0.041" />
+        </geometry>
+        <material name="dark_grey">
+           <color rgba="0.2 0.2 0.2 1.0"/>
+        </material>      </visual>
+     <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.05 0.05 0.041" />
+      </geometry>
+       </collision>
+	 <inertial>
+       <mass value="0.1" />
+         <inertia ixx="0.001" ixy="0.0" ixz="0.0"
+                   iyy="0.001" iyz="0.0"
+                   izz="0.001" />                     
+      </inertial>
+   </link>
+  
+   <link name="base_laser_middle">
+	 <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+		<geometry>
+          <cylinder length="0.0115" radius=".02"/>
+        </geometry>
+        <material name="dark_grey">
+           <color rgba="0.2 0.2 0.2 1.0"/>
+        </material>        
+     </visual>
+     <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+		 <geometry>
+          <cylinder length="0.0115" radius=".02"/>
+         </geometry>
+       </collision>
+	 <inertial>
+       <mass value="0.1" />
+         <inertia ixx="0.001" ixy="0.0" ixz="0.0"
+                   iyy="0.001" iyz="0.0"
+                   izz="0.001" />                     
+      </inertial>
+   </link>
+   
+   <joint name="base_laser_middle_joint" type="fixed">
+     <parent link="base_laser_bottom"/>
+     <child link="base_laser_middle" />
+     <origin xyz="0 0 0.02625" rpy="0 0 0" />
+   </joint>
+   
+   <link name="base_laser">
+	 <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+		<geometry>
+          <cylinder length="0.0175" radius=".0185"/>
+        </geometry>
+        <material name="red">
+           <color rgba="0.8 0.1 0.1 1.0"/>
+        </material>          
+     </visual>
+     <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+		 <geometry>
+          <cylinder length="0.0175" radius=".0185"/>
+         </geometry>
+       </collision>
+	 <inertial>
+       <mass value="0.1" />
+         <inertia ixx="0.001" ixy="0.0" ixz="0.0"
+                   iyy="0.001" iyz="0.0"
+                   izz="0.001" />                     
+      </inertial>
+   </link>
+   
+   <joint name="base_laser_joint" type="fixed">
+     <parent link="base_laser_middle"/>
+     <child link="base_laser" />
+     <origin xyz="0 0 0.0145" rpy="0 0 0" />
+   </joint>
+   
+   <gazebo reference="base_laser">
+       <sensor type="ray" name="base_hokuyo_laser">
+           <pose>0 0 0 0 0 0</pose>
+           <visualize>false</visualize>
+           <update_rate>10</update_rate>
+           <ray>
+               <scan>
+                   <horizontal>
+                   <samples>682</samples>
+                   <resolution>1</resolution>
+                   <!-- 1.7 is used in Piko's hokuyon launch file -->
+                   <min_angle>-1.7</min_angle>
+                   <max_angle>1.7</max_angle>
+                   <!-- These are the maximum possible values for the URG-04LX-UG01
+                   <min_angle>-2.09</min_angle>
+                   <max_angle>2.09</max_angle>
+                   -->
+                   </horizontal>
+               </scan>
+               <range>
+                   <min>0.20</min>
+                   <max>5.6</max>
+                   <resolution>0.01</resolution>
+               </range>
+               <noise>
+                   <type>gaussian</type>
+                   <mean>0.0</mean>
+                   <stddev>0.01</stddev>
+               </noise>
+           </ray>
+           <plugin name="hokuyo_node" filename="libgazebo_ros_laser.so">
+               <topicName>/scan</topicName>
+               <frameName>/base_laser</frameName>
+           </plugin>
+       </sensor>
+   </gazebo>   
+   
+  </xacro:macro>
+ 
+ </robot>
+ 

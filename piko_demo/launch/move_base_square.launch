@@ -1,0 +1,8 @@
+<launch>
+
+   <node pkg="rbx1_nav" type="move_base_square.py" name="move_base_square" clear_params="true" output="screen">
+      <rosparam>
+         square_size: 0.5
+      </rosparam>
+   </node>
+</launch>

@@ -1,0 +1,37 @@
+- id: 1
+  name: water_tower
+  frame_id: map
+  position: [-1.307, -2.398, 0.000]
+  orientation: [0.000, 0.000, 0.868, -0.497]
+  ar_tags:
+- id: 2
+  name: bookshelf
+  frame_id: map
+  position: [0.324, 1.092, 0.000]
+  orientation: [0.000, 0.000, 0.657, 0.754]
+  ar_tags:
+- id: 3
+  name: dumpster
+  frame_id: map
+  position: [1.246, -4.312, 0.000]
+  orientation: [0.000, 0.000, 0.722, 0.691]
+  ar_tags:
+- id: 4
+  name: box
+  frame_id: map
+  position: [1.103, -1.316, 0.000]
+  orientation: [0.000, 0.000, 0.363, 0.932]
+  ar_tags:
+- id: 5
+  name: barrier
+  frame_id: map
+  position: [-6.213, 1.631, 0.000]
+  orientation: [0.000, 0.000, -0.346, 0.938]
+  ar_tags:
+- id: 6
+  name: home
+  frame_id: map
+  position: [0.000, 0.000, 0.000]
+  orientation: [0.000, 0.000, 0.000, 1.000]
+  ar_tags:
+

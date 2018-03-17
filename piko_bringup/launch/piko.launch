@@ -1,0 +1,28 @@
+<launch>
+
+   <arg name="gps" default="false" />
+
+   <include file="$(find piko_bringup)/launch/piko_minimal.launch" />
+   
+   <include file="$(find piko_bringup)/launch/logitech_teleop.launch" />
+
+   <include file="$(find piko_bringup)/launch/head_camera_dynamixels.launch" />
+
+   <include file="$(find piko_bringup)/launch/yocs_safety_controller.launch" />
+   
+   <include file="$(find piko_bringup)/launch/navi_velocity_smoother.launch" />
+
+   <!-- include file="$(find piko_bringup)/launch/hokuyo.launch" /-->
+   
+   <!-- include file="$(find piko_bringup)/launch/laser_filter.launch" / -->
+   
+   <include file="$(find piko_bringup)/launch/depthimage_to_laserscan.launch" />
+   
+   <include file="$(find piko_bringup)/launch/auto_docking.launch" />
+   
+   <include file="$(find piko_bringup)/launch/openni2_skip_3.launch" />
+   
+   <!-- include file="$(find piko_bringup)/launch/gps.launch" if="$(arg gps)" /> -->
+  
+</launch>
+  

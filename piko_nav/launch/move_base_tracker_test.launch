@@ -1,0 +1,10 @@
+<launch>
+
+   <arg name="kobuki" default="true" />
+   <arg name="rate" default="2" />
+
+   <node pkg="piko_nav" type="move_base_tracker_test.py" name="move_base_tracker_test" clear_params="true" output="screen">
+      <remap if="$(arg kobuki)" from="cmd_vel" to="/cmd_vel_mux/input/teleop" />
+      <param name="rate" value="$(arg rate)" />
+   </node>
+</launch>

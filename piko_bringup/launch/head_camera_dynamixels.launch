@@ -1,0 +1,19 @@
+<launch>
+   <!-- Make sure we are not using simulated time -->
+   <param name="/use_sim_time" value="false" />
+  
+   <!-- Launch the arbotix driver in real mode by default -->
+   <arg name="sim" default="false" />
+   
+   <node name="arbotix" pkg="arbotix_python" type="arbotix_driver" clear_params="true" output="screen">
+      <rosparam file="$(find piko_bringup)/config/head_camera_dynamixels.yaml" command="load" />
+      <param name="sim" value="$(arg sim)" />
+   </node>
+   
+   <!-- Center all servos -->
+   <node pkg="piko_dynamixels" type="arbotix_center_all_servos.py" name="center_all_servos" unless="$(arg sim)" />
+
+   <!-- Monitor the Dynamixels for overheating -->
+   <!--include file="$(find piko_dynamixels)/launch/monitor_dynamixels.launch" unless="$(arg sim)" /-->
+
+</launch>

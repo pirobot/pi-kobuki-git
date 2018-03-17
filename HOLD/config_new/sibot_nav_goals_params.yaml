@@ -1,0 +1,2 @@
+TrajectoryPlannerROS:
+  yaw_goal_tolerance: 6.28 don't care about orientation

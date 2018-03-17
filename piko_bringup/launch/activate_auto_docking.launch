@@ -1,0 +1,5 @@
+<launch>
+  <node pkg="kobuki_auto_docking" type="DockDriveActionClient.py" name="dock_drive_client_py">
+     <remap from="/mobile_base/commands/velocity" to="/cmd_vel_mux/input/auto_dock" />
+  </node>
+</launch>

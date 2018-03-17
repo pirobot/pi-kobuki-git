@@ -1,0 +1,6 @@
+<launch>
+   <node pkg="piko_people_detection" name="cob_face_recognizer_to_pose" type="cob_face_recognizer_to_pose.py" clear_params="true" output="screen" >
+      <remap from="input_topic" to="/face_recognizer/face_recognitions" />
+      <remap from="output_topic" to="/target_pose" />
+   </node>
+</launch>

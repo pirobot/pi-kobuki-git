@@ -1,0 +1,8 @@
+<launch>
+
+  <node name="recognizer" pkg="pocketsphinx" type="recognizer.py" output="screen">
+    <param name="lm" value="$(find piko_speech)/config/voice_nav/nav_commands.lm"/>
+    <param name="dict" value="$(find piko_speech)/config/voice_nav/nav_commands.dic"/>
+  </node>
+  
+</launch>

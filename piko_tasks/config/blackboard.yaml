@@ -1,0 +1,2 @@
+# Location AR tag IDs
+locations: { dining_room: { ar_tags: [0] }, living_room: { ar_tags: [1, 2] } }

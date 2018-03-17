@@ -1,0 +1,10 @@
+<launch>
+
+  <arg name="kobuki" default="true" />
+
+  <!-- Launch move_base and load all navigation parameters -->
+  <include file="$(find piko_nav)/launch/move_base_no_layers_local.launch">
+     <arg name="kobuki" value="$(arg kobuki)" />
+  </include>
+
+</launch>

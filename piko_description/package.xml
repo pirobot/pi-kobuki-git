@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<package>
+  <name>piko_description</name>
+  <version>0.1.0</version>
+
+  <description>URDF/Xacro models for Pi Kobuki</description>
+
+  <maintainer email="patrick@pirobot.org">Patrick Goebel</maintainer>
+  <license>BSD</license>
+  <url type="website">http://www.pirobot.org/wordpress</url>
+  <url type="bugtracker">https://github.com/pirobot/piko/issues</url>
+  <author email="patrick@pirobot.org">Patrick Goebel</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>urdf</build_depend>
+  <build_depend>xacro</build_depend>
+
+  <run_depend>urdf</run_depend>
+  <run_depend>xacro</run_depend>
+
+  <!-- The export tag contains other, unspecified, tags -->
+  <export>
+    <!-- Other tools can request additional information be placed here -->
+
+  </export>
+</package>

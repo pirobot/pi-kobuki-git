@@ -1,0 +1,20 @@
+<launch>
+
+  <!-- include file="$(find piko_nav)/launch/piko_nav_server.launch" / -->
+  
+  <node name="soundplay_node" pkg="sound_play" type="soundplay_node.py" output="screen"/>
+
+  <node pkg="piko_demo" type="piko_demo.py" name="piko_demo" clear_params="true" output="screen">
+     <remap from="target_topic" to="/face_recognizer/face_recognitions" />
+     
+     <param name="nav_config_file" value="$(find piko_nav)/config/nav_server/condo_locations.yaml" />
+     
+     <rosparam>
+        rate: 10
+        max_target_distance: 2.0
+        lost_detection_timeout: 5.0
+        tts_voice: voice_don_diphone
+     </rosparam>
+  </node>
+   
+</launch>

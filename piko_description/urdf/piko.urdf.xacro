@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!--
+    - Base      : kobuki
+    - Stacks    : hexagons
+    - 3d Sensor : pan/tilt asus_xtion_pro
+-->
+<robot name="piko" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <property name="head_offset_x" value="0.065" />
+  <property name="head_offset_y" value="0.0" />
+  <property name="head_offset_z" value="0.526" />
+
+  <!-- Bring in the stock Kobuki description -->
+  <xacro:include filename="$(find turtlebot_description)/urdf/turtlebot_library.urdf.xacro" />
+  
+  <!-- Now the pan/tilt head -->
+  <xacro:include filename="$(find piko_description)/urdf/pan_tilt_head_xtion.urdf.xacro" />
+
+  <!-- Start with the robot base -->
+  <kobuki/>
+  
+  <stack_hexagons         parent="base_link"/>
+  
+   <!-- Attach the head base for the pan & tilt camera -->
+   <!--
+   <head name="head_base" parent="base" color="White">
+      <origin xyz="${head_offset_x} ${head_offset_y} ${head_offset_z}" rpy="0 0 ${PI}" />
+   </head>
+   -->
+   
+</robot>

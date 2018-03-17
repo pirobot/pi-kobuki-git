@@ -1,0 +1,22 @@
+<package>
+  <name>piko_msgs</name>
+  <version>0.1.0</version>
+  <description>
+    Pi Kobuki Messages
+  </description>
+  
+  <maintainer email="patrick@pirobot.org">Patrick Goebel</maintainer>
+  <license>BSD</license>
+  <url type="website">http://www.pirobot.org/wordpress</url>
+  <url type="bugtracker">https://github.com/pirobot/piko/issues</url>
+  <author email="patrick@pirobot.org">Patrick Goebel</author>
+  
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>message_generation</build_depend>
+  <build_depend>std_msgs</build_depend>
+
+  <run_depend>message_runtime</run_depend>
+  <run_depend>std_msgs</run_depend>
+  
+</package>

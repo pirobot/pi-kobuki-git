@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+
+<launch>
+    <!-- Load the Robot Description-->
+    <param name="robot_description" command="$(find xacro)/xacro.py '$(find piko_description)/urdf/piko_hexagons_laser.urdf.xacro'" />
+     
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher">
+       <param name="publish_frequency" type="double" value="20.0" />
+    </node>
+
+    <!-- Include poincloud_to_laserscan -->
+    <node pkg="pointcloud_to_laserscan" type="pointcloud_to_laserscan_node" name="pointcloud_to_laserscan" output="screen">
+
+        <remap from="cloud_in" to="camera/depth/points"/>
+        <remap from="scan" to="head_camera/scan"/>
+        <rosparam>
+            target_frame: base_link # Leave empty to output scan in the pointcloud frame
+            tolerance: 1.0
+            min_height: 0.05
+            max_height: 1.0
+
+            angle_min: -0.52 # -30.0*M_PI/180.0
+            angle_max: 0.52 # 30.0*M_PI/180.0
+            angle_increment: 0.005 # M_PI/360.0
+            scan_time: 0.3333
+            range_min: 0.45
+            range_max: 4.0
+            use_inf: true
+
+            # Concurrency level, affects number of pointclouds queued for processing and number of threads used
+            # 0 : Detect number of cores
+            # 1 : Single threaded
+            # 2->inf : Parallelism level
+            concurrency_level: 1
+        </rosparam>
+    </node>
+
+    <!-- Run a python script to the send a service call to gazebo_ros to spawn a URDF robot -->
+    <node name="spawn_piko_model" pkg="gazebo_ros" type="spawn_model" args="-urdf -model piko -param robot_description"/>
+    
+    <!-- node name="spawn_piko_model" pkg="gazebo_ros" type="spawn_model" args="-unpause -urdf -param robot_description -model mobile_base"/ -->
+    
+    <!-- Launch piko sim ros_control -->
+    <include file="$(find piko_gazebo)/launch/piko_control.launch"/>
+    
+    <!-- Velocity muxer -->
+    <node pkg="nodelet" type="nodelet" name="mobile_base_nodelet_manager" args="manager"/>
+    <node pkg="nodelet" type="nodelet" name="cmd_vel_mux" args="load yocs_cmd_vel_mux/CmdVelMuxNodelet mobile_base_nodelet_manager">
+      <param name="yaml_cfg_file" value="$(find piko_bringup)/config/yocs_cmd_vel_mux.yaml" />
+      <remap from="cmd_vel_mux/output" to="mobile_base/commands/velocity"/>
+    </node>
+
+    <!-- Bumper/cliff to pointcloud (not working, as it needs sensors/core messages) -->
+    <include file="$(find turtlebot_bringup)/launch/includes/kobuki/bumper2pc.launch.xml"/>
+    
+</launch>

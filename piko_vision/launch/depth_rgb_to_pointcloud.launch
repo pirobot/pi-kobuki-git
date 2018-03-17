@@ -1,0 +1,21 @@
+<launch>
+
+  <arg name="compressed" default="true" />
+  
+  <!-- Nodelet manager for this pipeline -->
+  <node pkg="nodelet" type="nodelet" args="manager" name="record_player_manager" output="screen"/>
+        
+ <!-- Decompress images if necessary -->
+ <node if="$(arg compressed)" pkg="image_transport" type="republish" name="uncompress_rgb" args="compressed in:=camera/rgb/image_rect_color raw out:=/camera/rgb/image_rect_color" />
+ <node if="$(arg compressed)" pkg="image_transport" type="republish" name="uncompress_depth" args="compressedDepth in:=camera/depth_registered/image_raw raw out:=camera/depth_registered/image_raw" />
+
+  <!-- Convert it into a point cloud -->
+  <node pkg="nodelet" type="nodelet" name="cloudify"
+        args="load depth_image_proc/point_cloud_xyzrgb record_player_manager --no-bond" output="screen">
+    <remap from="depth_registered/image_rect" to="camera/depth_registered/image_raw"/>
+    <remap from="depth_registered/points" to="camera/depth_registered/points"/>
+    <remap from="rgb/image_rect_color" to="camera/rgb/image_rect_color"/>
+    <remap from="rgb/camera_info" to="camera/rgb/camera_info"/>
+  </node>
+  
+</launch>

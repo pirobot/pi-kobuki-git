@@ -1,0 +1,17 @@
+<launch>
+  <arg name="kobuki" default="true" />
+  <arg name="dotfilepath" default="$(env HOME)/.ros/tree.dot" />
+  
+  <node pkg="piko_tasks" name="patrol_tree" type="real_patrol_tree.py" output="screen">
+    <remap if="$(arg kobuki)" from="cmd_vel" to="/cmd_vel_mux/input/cmd_vel"/>
+    <param name="fake" value="true" />
+    <param name="rate" value="2" />
+    <param name="square_size" value="1.0" />
+    <param name="n_patrols" value="-1" />
+    <param name="low_battery_threshold" value="50" />
+    <param name="full_charge" value="90" />
+    <param name="dotfilepath" value="$(arg dotfilepath)" />
+  </node>
+  
+</launch>
+

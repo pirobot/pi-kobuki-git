@@ -1,0 +1,6 @@
+<launch>
+
+  <node pkg="piko_tasks" name="piko_dashboard" type="piko_dashboard.py" />
+  <node pkg="piko_tasks" name="test_py_trees" type="test_py_trees.py" />
+  
+</launch>

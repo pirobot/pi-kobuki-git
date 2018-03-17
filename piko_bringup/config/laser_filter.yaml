@@ -1,0 +1,13 @@
+scan_filter_chain:
+- name: shadows
+  type: ScanShadowsFilter
+  params:
+    min_angle: 6
+    max_angle: 174
+    neighbors: 6
+    window: 1
+- name: range
+  type: LaserScanRangeFilter
+  params: 
+    lower_threshold: 0.05
+    upper_threshold: 6.0

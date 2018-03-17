@@ -1,0 +1,16 @@
+<launch>
+
+  <arg name="dotfilepath" default="$(env HOME)/.ros/tree.dot" />
+  
+  <node pkg="piko_tasks" name="patrol_tree" type="patrol_tree.py" output="screen">
+    <remap from="cmd_vel" to="/cmd_vel_mux/input/cmd_vel" />
+    <param name="fake" value="false" />
+    <param name="rate" value="10" />
+    <param name="square_size" value="1.0" />
+    <param name="n_patrols" value="2" />
+    <param name="low_battery_threshold" value="50" />
+    <param name="full_charge" value="96" />
+    <param name="dotfilepath" value="$(arg dotfilepath)" />
+  </node>
+  
+</launch>

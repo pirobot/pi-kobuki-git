@@ -1,0 +1,20 @@
+<launch>
+
+   <include file="$(find piko_bringup)/launch/piko_minimal.launch" />
+   
+   <include file="$(find piko_bringup)/launch/head_camera_dynamixels.launch" />
+
+   <include file="$(find piko_bringup)/launch/yocs_safety_controller.launch" />
+   
+   <include file="$(find piko_bringup)/launch/hokuyo.launch" />
+   
+   <!-- include file="$(find piko_bringup)/launch/rtabmap_openni.launch" /-->
+
+   <!-- include file="$(find piko_bringup)/launch/throttle_rtabmap_topics.launch" /-->
+   
+   <include file="$(find piko_nav)/launch/move_base.launch" />
+   
+   <include file="$(find piko_bringup)/launch/logitech_teleop.launch" />
+
+</launch>
+  

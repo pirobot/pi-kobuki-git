@@ -1,0 +1,6 @@
+<launch>
+
+  <include file="$(find bbc_demo)/launch/cob_people_detection.launch" />
+  <include file="$(find bbc_demo)/launch/cob_face_recognizer_to_pose.launch" />
+
+</launch>

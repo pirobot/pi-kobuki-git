@@ -1,0 +1,20 @@
+<launch>
+  <arg name="sim" default="false" />
+
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen" clear_params="true">
+  
+    <remap from="cmd_vel" to="/cmd_vel_mux/input/navi" if="$(arg sim)" />
+    <remap from="cmd_vel" to="navi_velocity_smoother/move_base_raw_cmd_vel" unless="$(arg sim)" />
+
+    <rosparam file="$(find piko_nav)/config/piko_dwa_gmapping/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find piko_nav)/config/piko_dwa_gmapping/costmap_common_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find piko_nav)/config/piko_dwa_gmapping/base_local_planner_params.yaml" command="load" />
+    <rosparam file="$(find piko_nav)/config/piko_dwa_gmapping/move_base_params.yaml" command="load" />   
+    <rosparam file="$(find piko_nav)/config/piko_dwa_gmapping/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find piko_nav)/config/piko_dwa_gmapping/global_costmap_params.yaml" command="load" />
+
+    <param name="local_costmap/obstacle_layer/base_scan/topic" value="scan" if="$(arg sim)" />
+    <param name="global_costmap/obstacle_layer/base_scan/topic" value="scan" if="$(arg sim)" />
+
+  </node>
+</launch>

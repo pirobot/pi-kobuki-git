@@ -1,0 +1,5 @@
+<launch>
+
+  <node pkg="piko_tasks" name="piko_executive" type="piko_executive.py" clear_params="true" output="screen" />
+
+</launch>

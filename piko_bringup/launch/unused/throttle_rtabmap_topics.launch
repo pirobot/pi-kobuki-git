@@ -1,0 +1,20 @@
+<launch>
+  <!-- Throttling messages -->
+
+  <node name="odom_throttled" type="throttle" pkg="topic_tools" args="messages /odom 1.0 /odom_throttled" />
+  <node name="scan_throttled" type="throttle" pkg="topic_tools" args="messages /scan 1.0 /scan_throttled" />
+  
+  <group ns="camera">
+    <node pkg="nodelet" type="nodelet" name="data_throttle" args="load rtabmap_ros/data_throttle camera_nodelet_manager" output="screen">
+      <param name="rate" type="double" value="1.0"/>
+
+      <remap from="rgb/image_in"       to="rgb/image_rect_color"/>
+      <remap from="depth/image_in"     to="depth_registered/image_raw"/>
+      <remap from="rgb/camera_info_in" to="rgb/camera_info"/>
+
+      <remap from="rgb/image_out"       to="/data_throttled_image"/>
+      <remap from="depth/image_out"     to="/data_throttled_image_depth"/>
+      <remap from="rgb/camera_info_out" to="/data_throttled_camera_info"/>
+    </node>
+  </group>
+</launch>

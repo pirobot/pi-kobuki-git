@@ -1,0 +1,50 @@
+- id: 0
+  name: pre_dock_location
+  frame_id: map
+  position: [0.412, -0.629, 0.000]
+  orientation: [0.000, 0.000, 0.374, 0.927]
+  ar_tags: [8]
+- id: 1
+  name: living_room
+  frame_id: map
+  position: [-1.138, -2.065, 0.000]
+  orientation: [0.000, 0.000, -0.713, 0.701]
+  ar_tags: [1]
+- id: 2
+  name: cat_litter
+  frame_id: map
+  position: [-2.092, -3.320, 0.000]
+  orientation: [0.000, 0.000, -0.713, 0.701]
+  ar_tags: [2]
+#- id: 3
+#  name: dining_room
+#  frame_id: map
+#  position: [0.412, -0.629, 0.000]
+#  orientation: [0.000, 0.000, 0.374, 0.927]
+#  ar_tags: [3]
+- id: 4
+  name: foyer
+  frame_id: map
+  position: [-1.162, -5.429, 0.000]
+  orientation: [0.000, 0.000, 0.963, -0.269]
+  ar_tags: [4]
+- id: 5
+  name: kitchen_hallway
+  frame_id: map
+  position: [1.603, -4.943, 0.000]
+  orientation: [0.000, 0.000, 0.719, 0.695]
+  ar_tags: [5]
+- id: 6
+  name: bedroom_hallway
+  frame_id: map
+  position: [3.524, -4.764, 0.000]
+  orientation: [0.000, 0.000, -0.670, 0.742]
+  ar_tags: [6]
+- id: 7
+  name: back_bedroom_hallway
+  frame_id: map
+  position: [3.462, -3.790, 0.000]
+  orientation: [0.000, 0.000, 0.731, 0.683]
+  ar_tags: [7]
+
+

@@ -1,0 +1,9 @@
+<launch>
+
+   <node pkg="piko_demo" type="move_base_waypoints.py" name="move_base_waypoints" clear_params="true" output="screen">
+      <rosparam file="$(find piko_demo)/config/waypoints.yaml" command="load"/>
+      <rosparam>
+         square_size: 0.5
+      </rosparam>
+   </node>
+</launch>

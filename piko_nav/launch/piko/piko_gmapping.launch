@@ -1,0 +1,8 @@
+<launch>
+  <arg name="sim" default="false" />
+
+  <include file="$(find piko_nav)/launch/gmapping.launch" />
+  <include file="$(find piko_nav)/launch/piko/piko_move_base.launch">
+     <arg name="sim" value="$(arg sim)" />
+  </include>
+</launch>

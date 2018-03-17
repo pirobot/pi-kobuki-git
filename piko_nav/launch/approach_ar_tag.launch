@@ -1,0 +1,53 @@
+<launch>
+  <arg name="camera"       default="usb_head_camera" />
+
+  <node pkg="piko_nav" name="approach_ar_tag" type="approach_ar_tag.py" clear_params="true" output="screen" respawn="true">
+     <remap from="cmd_vel" to="/cmd_vel_mux/input/ar_tag" />
+     
+     <rosparam>
+       <!-- What AR tag IDs are we using for docking? -->
+       ar_tag_ids: [1]
+       
+       <!-- What is the mapping between AR tags and the home base? -->
+       ar_tag_mapping: "{1: front, 2: back, 3: left, 0: right}"
+      
+       scan_camera: false
+       align_camera_with_target: true
+       align_robot_with_target: false
+       move_robot_toward_target: false
+       
+       <!-- Max distance in meters to move the base before taking another snapshot -->
+       max_move_base_distance: 0.5 <!-- meters -->
+       
+       <!-- Default linear movement speed -->
+       default_approach_speed: 0.1 <!-- m/s -->
+
+       <!-- Base motion parameters -->
+       use_move_base: false
+       base_frame: base_footprint
+       odom_frame: odom
+       base_angular_tolerance: 0.1 <!-- radians -->
+       base_linear_tolerance: 0.5  <!-- meters -->
+
+       max_angular_speed: 1.0
+       max_linear_speed: 0.2
+       
+       <!-- Does the camera have a tilt servo? -->
+       use_camera_tilt: true
+       initial_tilt_angle: 0 <!-- degrees -->
+       
+       <!-- Servo parameters -->
+       default_joint_speed: 0.75 <!-- rad/s -->
+       max_joint_speed: 1.0      <!-- rad/s -->
+       
+       pan_limit: 90  <!-- degrees -->
+       min_tilt: 0   <!-- degrees -->
+       max_tilt: 60  <!-- degrees -->
+
+       pan_threshold: 0.1  <!-- radians -->
+       tilt_threshold: 0.1 <!-- radians -->
+
+    </rosparam>
+    
+  </node>
+</launch>

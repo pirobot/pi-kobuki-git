@@ -1,0 +1,35 @@
+<launch>
+  <arg name="sim" default="false" />
+  <arg name="map" default="blank_map_10m_0.05.yaml" />
+
+  <!-- Run the map server with a choice of maps -->
+  <node name="map_server" pkg="map_server" type="map_server" args="$(find piko_nav)/maps/$(arg map)" output="screen" unless="$(arg sim)" />
+  <node name="map_server" pkg="map_server" type="map_server" args="$(find piko_gazebo)/maps/segway_playpen.yaml" output="screen" if="$(arg sim)" />
+
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen" clear_params="true">
+  
+    <remap from="cmd_vel" to="/cmd_vel_mux/input/navi" if="$(arg sim)" />
+    <remap from="cmd_vel" to="navi_velocity_smoother/move_base_raw_cmd_vel" unless="$(arg sim)" />
+
+    <rosparam file="$(find piko_nav)/config/piko_dwa_common/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find piko_nav)/config/piko_dwa_common/costmap_common_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find piko_nav)/config/piko_dwa_common/global_planner_params.yaml" command="load" />
+    <rosparam file="$(find piko_nav)/config/piko_dwa_common/navfn_planner_params.yaml" command="load" />
+    <rosparam file="$(find piko_nav)/config/piko_dwa_common/dwa_local_planner_params.yaml" command="load" />
+    <rosparam file="$(find piko_nav)/config/piko_dwa_common/base_local_planner_params.yaml" command="load" />
+    <rosparam file="$(find piko_nav)/config/piko_dwa_common/move_base_params.yaml" command="load" />   
+    <rosparam file="$(find piko_nav)/config/piko_dwa_common/local_costmap_params.yaml" command="load" />
+    
+    <rosparam file="$(find piko_nav)/config/piko_dwa_with_map/global_costmap_params.yaml" command="load" />
+    
+    <param name="global_costmap/obstacle_layer/point_cloud_head_camera/topic" value="/camera/depth/points" if="$(arg sim)" />
+  </node>
+  
+  <!-- Run fake localization compatible with AMCL output -->
+  <node pkg="fake_localization" type="fake_localization" name="fake_localization" clear_params="true" output="screen">
+     <remap from="base_pose_ground_truth" to="odom" />
+     <param name="global_frame_id" value="map" />
+     <param name="base_frame_id" value="base_link" />
+  </node>
+  
+</launch>

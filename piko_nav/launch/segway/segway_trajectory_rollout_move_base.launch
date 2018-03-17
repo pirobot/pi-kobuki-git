@@ -1,0 +1,40 @@
+<launch>
+
+  <arg name="balancing_enabled" default="$(optenv SEGWAY_RUNS_IN_BALANCE_MODE false)"/>
+  <arg name="sim" default="true"/>
+    
+  <!-- Run segway_move_base action client for tracking status -->
+  <node pkg="segway_ros" name="segway_move_base" type="segway_move_base" output="screen" clear_params="true">
+      <param name="sim" value="$(arg sim)"/> 
+      <param name="using_amcl" value="false"/>
+      <param name="global_frame" value="/odom"/>
+      <param name="goal_timeout_sec" value="300"/>
+      <param name="platform_mode" value="tractor" unless="$(arg balancing_enabled)"/>
+      <param name="platform_mode" value="balance" if="$(arg balancing_enabled)"/>
+  </node>
+    
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen" clear_params="true">
+  
+    <remap from="cmd_vel" to="/segway/navigation/cmd_vel" />
+    
+    <remap from="move_base/goal" to="move_base_navi/goal" />
+    <remap from="move_base/result" to="move_base_navi/result" />
+    <remap from="move_base/feedback" to="move_base_navi/feedback" />
+    <remap from="move_base/status" to="move_base_navi/status" />
+    <remap from="move_base/cancel" to="move_base_navi/cancel" />
+    <remap from="move_base_simple/goal" to="move_base_navi_simple/goal"/>
+    <remap from="/odom" to="/segway/odometry/local_filtered" />
+    
+    <param name="base_global_planner" value="global_planner/GlobalPlanner"/>
+    <!-- param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS"/ -->
+    <param name="base_local_planner" value="base_local_planner/TrajectoryPlannerROS"/>
+
+    <rosparam file="$(find piko_nav)/config/segway_trajectory_rollout/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find piko_nav)/config/segway_trajectory_rollout/costmap_common_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find piko_nav)/config/segway_trajectory_rollout/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find piko_nav)/config/segway_trajectory_rollout/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find piko_nav)/config/segway_trajectory_rollout/base_local_planner_params.yaml" command="load" />
+    <rosparam file="$(find piko_nav)/config/segway_trajectory_rollout/move_base_params.yaml" command="load" />
+
+  </node>
+</launch>

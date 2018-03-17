@@ -1,0 +1,6 @@
+<launch>
+   <node pkg="bbc_demo" name="cob_head_detection_to_point" type="cob_head_detection_to_point.py" clear_params="true" output="screen" >
+      <remap from="input_topic" to="/face_recognizer/face_recognitions" />
+      <remap from="output_topic" to="/target_head" />
+   </node>
+</launch>

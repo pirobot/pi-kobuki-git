@@ -1,0 +1,14 @@
+<launch>
+
+   <node pkg="rbx1_nav" type="nav_square.py" name="nav_square" clear_params="true" output="screen">
+      <remap from="cmd_vel" to="navi_velocity_smoother/move_base_raw_cmd_vel" />
+      <rosparam>
+         rate: 20
+         goal_distance: 0.5
+         linear_tolerance: 0.02
+         angular_tolerance: 1.0 <!-- degrees -->
+         linear_speed: 0.15
+         angular_speed: 0.5
+      </rosparam>
+   </node>
+</launch>

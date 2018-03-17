@@ -1,0 +1,21 @@
+<launch>
+
+  <arg name="rtabmapviz" default="false" /> 
+  <arg name="wait_for_transform_duration"  default="0.5"/>
+  <arg name="localization"                 default="true"/>
+  <arg name="sim"                          default="false"/>
+  <arg name="throttled"                    default="false"/>
+  <arg name="rtabmap_args"                 default=""/>
+  <arg name="database_path"                default="~/.ros/rtabmap.db"/>
+  
+  <include file="$(find piko_nav)/launch/rtabmap/rtabmap_mapping.launch">
+     <arg name="rtabmapviz"                   value="$(arg rtabmapviz)" /> 
+     <arg name="wait_for_transform_duration"  value="$(arg wait_for_transform_duration)" />
+     <arg name="localization"                 value="$(arg localization)" />
+     <arg name="sim"                          value="$(arg sim)" />
+     <arg name="throttled"                    value="$(arg throttled)" />
+     <arg name="rtabmap_args"                 value="$(arg rtabmap_args)" />
+     <arg name="database_path"                value="$(arg database_path)" />
+  </include>
+  
+</launch>

@@ -1,0 +1,12 @@
+<launch>
+
+  <node name="soundplay_node" pkg="sound_play" type="soundplay_node.py" output="screen"/>
+
+  <!-- Run the name_that_face.py node and remap the face_position topics  -->
+  <node pkg="piko_people_detection" type="name_that_face.py" name="name_that_face" output="screen">
+    <remap from="face_positions" to="/detection_tracker/face_position_array" />
+  	<param name="wavepath" value="$(find piko_speech)/sounds"/>
+  	<param name="use_sound" value="true" />
+  </node>
+  
+</launch>

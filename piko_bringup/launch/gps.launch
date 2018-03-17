@@ -1,0 +1,11 @@
+<launch>
+  <!-- Run the NMEW gps NavFix gps driver -->
+  <node pkg="nmea_navsat_driver" type="nmea_serial_driver" name="gps" respawn="true" clear_params="true" output="screen">
+    <remap from="fix" to="gps/fix" />
+    <remap from="vel" to="gps/vel" />
+    <remap from="time_reference" to="gps/time_reference" />
+    <param name="port" value="/dev/gps" />
+    <param name="baud" value="4800" />
+    <param name="frame_id" value="/base_link" />
+  </node>
+</launch>

@@ -1,0 +1,9 @@
+<launch>
+
+  <arg name="dotfilepath" default="$(env HOME)/.ros/tree.dot" />
+  
+  <node pkg="piko_tasks" name="people_monitor" type="people_monitor.py" output="screen">
+  
+  </node>
+  
+</launch>

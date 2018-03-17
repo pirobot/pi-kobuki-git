@@ -1,0 +1,24 @@
+<!-- Driver for the logitech rumblepad2 joystick. -->
+<launch>
+
+  <!-- velocity smoother -->
+  <node pkg="nodelet" type="nodelet" name="teleop_velocity_smoother" args="load yocs_velocity_smoother/VelocitySmootherNodelet /mobile_base_nodelet_manager">
+    <rosparam file="$(find piko_bringup)/config/navi_velocity_smoother.yaml" command="load"/>
+    <remap from="teleop_velocity_smoother/smooth_cmd_vel" to="/cmd_vel_mux/input/teleop"/>
+    <remap from="teleop_velocity_smoother/raw_cmd_vel" to="teleop_velocity_smoother/joystick_raw_cmd_vel"/>
+
+    <!-- Robot velocity feedbacks; use the one configured as base default -->
+    <remap from="teleop_velocity_smoother/odometry" to="/odom"/>
+    <remap from="teleop_velocity_smoother/robot_cmd_vel" to="/mobile_base/commands/velocity"/>
+  </node>
+
+  <node pkg="turtlebot_teleop" type="turtlebot_teleop_joy" name="turtlebot_teleop_joystick">
+    <param name="scale_angular" value="2.0"/>
+    <param name="scale_linear" value="0.3"/>
+    <param name="axis_deadman" value="7"/>
+    <remap from="turtlebot_teleop_joystick/cmd_vel" to="teleop_velocity_smoother/joystick_raw_cmd_vel"/>
+  </node>
+
+  <node pkg="joy" type="joy_node" name="joystick"/>
+
+</launch>

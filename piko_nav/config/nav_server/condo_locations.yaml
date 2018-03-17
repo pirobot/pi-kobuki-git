@@ -1,0 +1,37 @@
+- id: 1
+  name: living_room
+  frame_id: map
+  position: [2.337, -2.435, 0.000]
+  orientation: [0.000, 0.000, 0.109, 0.994]
+  ar_tags: [1]
+- id: 2
+  name: dining_room
+  frame_id: map
+  position: [0.727, -1.155, 0.000]
+  orientation: [0.000, 0.000, 0.818, 0.575]
+  ar_tags: [2]
+- id: 3
+  name: foyer
+  frame_id: map
+  position: [5.458, -2.020, 0.000]
+  orientation: [0.000, 0.000, -0.605, 0.796]
+  ar_tags: [3]
+- id: 4
+  name: kitchen_hallway
+  frame_id: map
+  position: [5.016, 0.567, 0.000]
+  orientation: [0.000, 0.000, 0.998, -0.070]
+  ar_tags: [4]
+- id: 5
+  name: bedroom_hallway
+  frame_id: map
+  position: [4.996, 2.312, 0.000]
+  orientation: [0.000, 0.000, 0.070, 0.998]
+  ar_tags: [5]
+- id: 6
+  name: back_bedroom_hallway
+  frame_id: map
+  position: [2.929, 1.874, 0.000]
+  orientation: [0.000, 0.000, 1.000, -0.007]
+  ar_tags: [6]
+

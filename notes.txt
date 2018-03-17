@@ -1,0 +1,53 @@
+* RESETTING LOGITECH GAME PAD:
+  - take out a battery
+  - hold down 5 and 7 keys and reinsert batter
+
+* Launch the Kobuki base, cmd_vel_mux, velocity safety controller, and head dynamixels with temperature monitoring:
+
+  $ roslaunch piko_bringup piko.launch
+  
+* Launch move_base with a blank map:
+
+  $ roslaunch piko_nav move_base_blank_map.launch
+  
+* Launch the openni2 driver with data skip 3
+
+  $ roslaunch piko_bringup openni2_skip_3.launch
+  
+  Test with:
+  
+  $ rosrun image_view image_view image:=/camera/rgb/image_raw
+  
+* Chrony setup:
+
+  On all machines:
+  
+  $ sudo apt-get install chrony
+  
+  On robot, /etc/chrony/chrony.conf add the following line before the server list:
+  
+  manual
+  
+  This enables the robot to be a server.  Restart chrony with 'sudo service chrony restart'
+  
+  On desktop, /etc/chrony/chrony.conf add the following line before the server list:
+  
+  server pi-robot-netbook.local prefer iburst minpoll 5
+  
+  where pi-robot-netbook.local is the robot hostname.
+  
+  Restart chrony with 'sudo service chrony restart'
+  
+  Check on desktop with 'chronyc tracking'
+  
+  
+* Autostart:
+
+  Create the upstart files:
+  
+  $ sudo apt-get install ros-indigo-robot-upstart
+  $ rosrun robot_upstart install piko_bringup/launch/piko.launch
+  
+  To uninstall the last install:
+  
+  $ rosrun robot_upstart uninstall

@@ -1,0 +1,86 @@
+# 2D Costmap parameters 
+# http://www.ros.org/wiki/costmap_2d
+
+### Coordinate frame and tf parameters ###
+robot_base_frame:           segway/base_link
+transform_tolerance:        0.6
+
+### Rate parameters ###
+obstacle_range:             2.5 #default 2.5
+raytrace_range:             3.0 #default 3.0
+
+### Robot description parameters ###
+inflation_radius:           0.2  #default: 0.55
+cost_scaling_factor:        11 #default 11.8
+
+# ---SIBOT footprint (Meters):---
+#footprint: [[0.46, 0.0], [0.459, 0.024], [0.457, 0.048], [0.454, 0.072], [0.45, 0.096], [0.444, 0.119], [0.437, 0.142], [0.429, 0.165], [0.42, 0.187], [0.41, 0.209], [0.398, 0.23], [0.386, 0.251], [0.372, 0.27], [0.357, 0.289], [0.342, 0.308], [0.325, 0.325], [-0.325, 0.325], [-0.342, 0.308], [-0.357, 0.289], [-0.372, 0.27], [-0.386, 0.251], [-0.398, 0.23], [-0.41, 0.209], [-0.42, 0.187], [-0.429, 0.165], [-0.437, 0.142], [-0.444, 0.119], [-0.45, 0.096], [-0.454, 0.072], [-0.457, 0.048], [-0.459, 0.024], [-0.46, 0.0], [-0.459, -0.024], [-0.457, -0.048], [-0.454, -0.072], [-0.45, -0.096], [-0.444, -0.119], [-0.437, -0.142], [-0.429, -0.165], [-0.42, -0.187], [-0.41, -0.209], [-0.398, -0.23], [-0.386, -0.251], [-0.372, -0.27], [-0.357, -0.289], [-0.342, -0.308], [-0.325, -0.325], [0.325, -0.325], [0.342, -0.308], [0.357, -0.289], [0.372, -0.27], [0.386, -0.251], [0.398, -0.23], [0.41, -0.209], [0.42, -0.187], [0.429, -0.165], [0.437, -0.142], [0.444, -0.119], [0.45, -0.096], [0.454, -0.072], [0.457, -0.048], [0.459, -0.024], [0.46, 0.0]]
+
+# Rectangle Sibot
+footprint: [[0.31, 0.32], [0.31,-0.32], [-0.41,-0.32],[-0.41,0.32]]
+
+# The following parameter is overwritten if the "footprint" parameter is set
+#robot_radius:               0.36
+
+footprint_padding: 0.1
+
+### Common Map Parameters ###
+
+### Map type parameters ###
+map_type:               voxel
+resolution:             0.025
+
+# The following parameters are only used if map_type is set to "costmap":
+#track_unknown_space:    false
+
+# The following parameters are only used if map_type is set to "voxel":
+origin_z:              0.0
+z_resolution:          0.2
+z_voxels:              10
+unknown_threshold:     5
+mark_threshold:        0
+
+### Sensor management parameters ###
+observation_sources: base_scan_cloud #rotating_scan_cloud ground_object_cloud
+
+base_scan_cloud: {
+    sensor_frame:            segway/front_laser_link, 
+    topic:                   segway/filtered_scan, 
+    data_type:               LaserScan, 
+    expected_update_rate:    0.5,
+    observation_persistence: 0.0, 
+    marking:                 true, 
+    clearing:                true, 
+    min_obstacle_height:     0.08, 
+    max_obstacle_height:     2.0,
+    obstacle_range:          5.5,
+    raytrace_range:          6.5
+}
+
+rotating_scan_cloud: {
+    sensor_frame:            /sibot/left_camera_optical_frame, 
+    topic:                   /sibot/lidar_points2, 
+    data_type:               PointCloud2, 
+    expected_update_rate:    0.5,
+    observation_persistence: 0.2, 
+    marking:                 false, 
+    clearing:                true, 
+    min_obstacle_height:     -20.0, 
+    max_obstacle_height:     40.0,
+    obstacle_range:          2.5,
+    raytrace_range:          3.0
+}
+
+ground_object_cloud: {
+    sensor_frame:            /sibot/left_camera_optical_frame, 
+    topic:                   /sibot/ground_object_cloud, 
+    data_type:               PointCloud2, 
+    expected_update_rate:    0.5,
+    observation_persistence: 4.6, 
+    marking:                 true, 
+    clearing:                true, 
+    min_obstacle_height:     -0.10, 
+    max_obstacle_height:     2.0,
+    obstacle_range:          2.5,
+    raytrace_range:          3.0
+}

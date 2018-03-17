@@ -1,0 +1,19 @@
+<launch>
+
+  <arg name="segway" default="true" />
+
+  <arg name="dotfilepath" default="$(env HOME)/.ros/tree.dot" />
+  
+  <node pkg="piko_tasks" name="patrol_tree" type="simple_patrol_tree.py" output="screen">
+    <remap from="cmd_vel" to="/cmd_vel_mux/input/cmd_vel" />
+    <remap from="move_base" to="move_base_navi" if="$(arg segway)" />
+    <param name="fake" value="false" />
+    <param name="rate" value="10" />
+    <param name="square_size" value="6.0" />
+    <param name="n_patrols" value="3" />
+    <param name="low_battery_threshold" value="50" />
+    <param name="full_charge" value="96" />
+    <param name="dotfilepath" value="$(arg dotfilepath)" />
+  </node>
+  
+</launch>

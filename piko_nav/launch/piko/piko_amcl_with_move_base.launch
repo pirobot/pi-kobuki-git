@@ -1,0 +1,13 @@
+<launch>
+
+  <arg name="sim" default="false" />
+  
+  <include file="$(find piko_nav)/launch/amcl.launch" />
+  <include file="$(find piko_nav)/launch/piko/piko_move_base_with_map.launch">
+     <arg name="sim" value="$(arg sim)" />
+  </include>
+  
+</launch>
+
+
+  

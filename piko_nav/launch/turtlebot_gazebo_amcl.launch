@@ -1,0 +1,6 @@
+<launch>
+
+  <include file="$(find piko_nav)/launch/amcl.launch" />
+  <include file="$(find piko_nav)/launch/turtlebot_gazebo_with_map.launch" />
+  
+</launch>

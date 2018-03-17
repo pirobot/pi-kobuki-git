@@ -1,0 +1,7 @@
+<launch>
+
+  <node pkg="piko_nav" type="piko_nav_server.py" name="piko_nav_server" clear_params="true" output="screen">
+     <param name="nav_config_file" value="$(find piko_nav)/config/nav_server/condo_living_room.yaml" />
+  </node>
+   
+</launch>

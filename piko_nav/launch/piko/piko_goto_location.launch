@@ -1,0 +1,9 @@
+<launch>
+
+  <node pkg="piko_nav" type="piko_goto_location.py" name="piko_goto_location" clear_params="true" output="screen">
+     <param name="nav_config_file" value="$(find piko_nav)/config/nav_server/condo_living_room.yaml" />
+     <param name="requested_location" value="living_room" />
+
+  </node>
+   
+</launch>

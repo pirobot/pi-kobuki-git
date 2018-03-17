@@ -1,0 +1,7 @@
+<launch>
+
+  <include file="$(find piko_people_detection)/launch/cob_people_detection/cob_people_detection.launch" />
+  <include file="$(find piko_people_detection)/launch/cob_face_recognizer_to_pose.launch" />
+  <!-- include file="$(find piko_demo)/launch/head_tracker_3d.launch" / -->
+
+</launch>

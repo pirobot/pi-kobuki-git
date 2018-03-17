@@ -1,0 +1,9 @@
+<launch>
+  <node pkg="leg_detector" type="leg_detector" name="leg_detector" args="$(find leg_detector)/config/trained_leg_detector.yaml" output="screen" clear_params="true">
+     <remap from="visualization_marker" to="leg_markers" />
+     <param name="fixed_frame" type="string" value="/odom" />
+     <param name="leg_reliability_limit" value="0.7" />
+     <param name="use_seeds" value="false" />
+  </node>
+</launch>
+

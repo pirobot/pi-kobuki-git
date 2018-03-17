@@ -1,0 +1,8 @@
+waypoints: {
+    living_room: {
+        position: {x: 1.503, y: 1.004, z: 0.000}, orientation: {x: 0.0, y: 0.0, z: 0.4, w: 0.916}
+                  },
+    dining_room: {
+        position: {x: 0.0, y: 0.0, z: 0.0}, orientation: {x: 0.0, y: 0.0, z: 0.4, w: 1.0}
+                 }
+           }

@@ -1,0 +1,19 @@
+<launch>
+
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen" clear_params="true">
+    <remap from="cmd_vel" to="/cmd_vel_mux/input/navi" />
+    <!-- remap from="cmd_vel" to="navi_velocity_smoother/move_base_raw_cmd_vel" /-->
+    
+    <rosparam file="$(find piko_nav)/config/sibot/no_layers/base_planner_params.yaml" command="load" />
+    <rosparam file="$(find piko_nav)/config/sibot/no_layers/move_base_params.yaml" command="load" />
+    
+    <rosparam file="$(find piko_nav)/config/sibot/no_layers/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find piko_nav)/config/sibot/no_layers/costmap_common_params.yaml" command="load" ns="local_costmap" />
+    
+    <!-- Load global navigation specific parameters -->
+    <rosparam file="$(find piko_nav)/config/sibot/no_layers/global/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find piko_nav)/config/sibot/no_layers/global/global_costmap_params.yaml" command="load" />
+    
+  </node>
+  
+</launch>

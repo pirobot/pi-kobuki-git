@@ -1,0 +1,17 @@
+<launch>
+
+   <arg name="kobuki" default="true" />
+   <arg name="linear_tracking_threshold" default="0.2" />
+   <arg name="angular_tracking_threshold" default="0.2" />
+   <arg name="min_distance" default="0.8" />
+   <arg name="distance_tolerance" default="0.1" />
+
+   <node pkg="piko_nav" type="move_base_tracker.py" name="move_base_tracker" clear_params="true" output="screen">
+      <remap if="$(arg kobuki)" from="cmd_vel" to="/cmd_vel_mux/input/teleop" />
+      <remap from="target_topic" to="target_pose" />
+      <param name="linear_tracking_threshold" value="$(arg linear_tracking_threshold)" />
+      <param name="angular_tracking_threshold" value="$(arg angular_tracking_threshold)" />
+      <param name="min_distance" value="$(arg min_distance)" />
+      <param name="distance_tolerance" value="$(arg distance_tolerance)" />
+   </node>
+</launch>

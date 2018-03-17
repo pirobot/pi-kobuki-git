@@ -1,0 +1,15 @@
+# http://wiki.ros.org/global_planner
+GlobalPlanner:
+  # Cost values taken from http://www.zkytony.com/documents/navguide.pdf
+  lethal_cost:                  253   #default: 253
+  neutral_cost:                 66    #default: 50
+  cost_factor:                  0.55  #default: 3.0
+  orientation_mode:             1     #default: 1-Forward
+  publish_potential:            false #default: false
+  allow_unknown:                true  #default: true
+  default_tolerance:            0.5   #default: 0 (minimim distance to goal allowed)
+  visualize_potential:          false #default: false
+  use_dijkstra:                 true  #default: true (otherwise use A*)
+  use_quadratic:                true  #default: true (otherwise use a simpler approximation)
+  use_grid_path:                false #default: false (otherwise follow grid boundaries)
+  old_navfn_behavior:           false #default: false (use navfn behavior)

@@ -1,0 +1,14 @@
+<launch>
+
+   <node pkg="piko_nav" type="odom_out_and_back.py" name="out_and_back" clear_params="true" output="screen">
+      <remap from="cmd_vel" to="navi_velocity_smoother/move_base_raw_cmd_vel" />
+      <rosparam>
+         rate: 20
+         goal_distance: 1.0
+         linear_tolerance: 0.02
+         angular_tolerance: 1.0 <!-- degrees -->
+         linear_speed: 0.15
+         angular_speed: 1.0
+      </rosparam>
+   </node>
+</launch>
