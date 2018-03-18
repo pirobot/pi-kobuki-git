@@ -31,15 +31,21 @@ import py_trees_msgs.msg as py_trees_msgs
 from std_msgs.msg import Bool
 from piko_tasks.servo_behaviors import CheckServosReady, InitServos, MoveHead, RelaxServos
 from piko_tasks.move_base_behaviors import MoveBaseSimple
+#from piko_tasks.behaviors import SayPhrase
 
 blackboard = Blackboard()
 
 class PyTree():
-    def __init__(self):
+    def __init__(self, script_path):
         rospy.init_node("test_py_trees")
+        
+        self.script_path = script_path
 
         blackboard = Blackboard()
         
+        blackboard.servos_active = False
+        blackboard.move_base_active = False
+
         root = self.create_root()
         behaviour_tree = py_trees_ros.trees.BehaviourTree(root)
         
@@ -54,47 +60,66 @@ class PyTree():
         
     def create_root(self):
         root = py_trees.composites.Parallel("Root",)
+        topics_to_bb = py_trees.composites.Parallel("Topics2BB")
         behave = py_trees.composites.Parallel("Behave")
         startup = py_trees.composites.Selector("Startup")
-        check_active = py_trees.composites.Sequence("CheckActive")
-        servo_tasks = py_trees.composites.Sequence("ServoTasks")
-        move_base_tasks = py_trees.composites.Sequence("MoveBaseTasks")
+        servo_tasks = py_trees.composites.Selector("ServoTasks")
+        move_base_tasks = py_trees.composites.Selector("MoveBaseTasks")
+        scan_base = py_trees.Sequence("ScanBase")
+        scan_servos = py_trees.Sequence("ScanServos")
         
-        activate_to_bb = py_trees_ros.subscribers.ToBlackboard(
-            name="Activate2BB",
-            topic_name="/piko_dashboard/active",
+        servos_active_to_bb = py_trees_ros.subscribers.ToBlackboard(
+            name="Servos2BB",
+            topic_name="/piko_dashboard/servos_active",
             topic_type=Bool,
-            blackboard_variables={'active': 'data'}
+            blackboard_variables={'servos_active': 'data'}
         )
         
-        is_active = py_trees.blackboard.CheckBlackboardVariable(
-            name="Active?",
-            variable_name='active',
-            expected_value=True
+        move_base_active_to_bb = py_trees_ros.subscribers.ToBlackboard(
+            name="MoveBase2BB",
+            topic_name="/piko_dashboard/move_base_active",
+            topic_type=Bool,
+            blackboard_variables={'move_base_active': 'data'}
         )
         
-        check_active.add_children([activate_to_bb, is_active])
+        check_servos_disabled = py_trees.blackboard.CheckBlackboardVariable(
+            name="Disabled?",
+            variable_name='servos_active',
+            expected_value=False
+        )
         
+        check_move_base_disabled = py_trees.blackboard.CheckBlackboardVariable(
+            name="Disabled?",
+            variable_name='move_base_active',
+            expected_value=False
+        )
+                
         idle = py_trees.timers.Timer(name="Timer 3.0", duration=3.0)
         
-        move_base_45     = MoveBaseSimple("Rotate 45 degrees", simple_goal=[0.0, 0.785398])
-        move_base_neg_45 = MoveBaseSimple("Rotate -45 degrees", simple_goal=[0.0, -0.785398])
+        #say_hello   = SayPhrase("SayHello", script_path=self.script_path, phrase="Hello!")
+        
+        move_base_45     = MoveBaseSimple("Rotate 45 degrees",  simple_goal=[0.0, 45])
+        move_base_neg_45 = MoveBaseSimple("Rotate -45 degrees", simple_goal=[0.0, -45])
 
-        move_base_tasks.add_children([move_base_45, idle, move_base_neg_45])
+        scan_base.add_children([move_base_45, idle, move_base_neg_45, idle])
     
         check_servos_ready = CheckServosReady("CheckServosReady")
         init_servos        = InitServos("InitServos")
         
         startup.add_children([check_servos_ready, init_servos])
 
-        center_head    = MoveHead("CenterHead", angle_goal=[0.0, 0.0])
-        pan_head_right = MoveHead("PanHead",    angle_goal=[-1.0, 0.0])
+        pan_head_left  = MoveHead("PanHeadLeft", angle_goal=[1.0, 0.0])
+        pan_head_right = MoveHead("PanHeadRight",  angle_goal=[-1.0, 0.0])
         relax_servos   = RelaxServos("RelaxServos")
         
-        servo_tasks.add_children([center_head, pan_head_right, relax_servos])
-
-        behave.add_children([servo_tasks, move_base_tasks, idle])
-        root.add_children([startup, check_active, behave])
+        move_base_tasks.add_children([check_move_base_disabled, scan_base])
+        
+        scan_servos.add_children([pan_head_left, relax_servos, idle, pan_head_right, relax_servos, idle])
+        servo_tasks.add_children([check_servos_disabled, scan_servos])
+        
+        topics_to_bb.add_children([servos_active_to_bb, move_base_active_to_bb])
+        behave.add_children([servo_tasks, move_base_tasks])
+        root.add_children([startup, topics_to_bb, behave])
         
         return root
             
@@ -110,5 +135,5 @@ class PyTree():
         rospy.sleep(1)
 
 if __name__ == '__main__':
-    tree = PyTree()
+    tree = PyTree(sys.path[0])
 

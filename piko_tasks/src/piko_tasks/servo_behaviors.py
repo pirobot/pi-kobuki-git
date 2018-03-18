@@ -40,14 +40,13 @@ class MoveHead(py_trees_ros.actions.ActionClient):
         # Send the trajectory to the head action server
         rospy.loginfo('Moving the head to goal position...')
         
-        goal = FollowJointTrajectoryGoal()
-        goal.trajectory = trajectory
-        goal.goal_time_tolerance = rospy.Duration(0.0)
-    
-        self.action_goal = goal
-    
-    def terminate(self, new_status=Status.SUCCESS):
-        pass
+        self.goal = FollowJointTrajectoryGoal()
+        self.goal.trajectory = trajectory
+        self.goal.goal_time_tolerance = rospy.Duration(0.0)
+            
+    def initialise(self):
+        rospy.loginfo('Moving head to [pan=%.2f, tily=%.2f] radians', self.goal.trajectory.points[0].positions[0], self.goal.trajectory.points[0].positions[0])
+        self.action_goal = self.goal
     
 class RelaxServos(py_trees.Behaviour):
     def __init__(self, name):
