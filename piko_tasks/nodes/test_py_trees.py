@@ -49,7 +49,7 @@ class PyTree():
         root = self.create_root()
         behaviour_tree = py_trees_ros.trees.BehaviourTree(root)
         
-        py_trees.display.render_dot_tree(root, visibility_level=VisibilityLevel.BIG_PICTURE)
+        #py_trees.display.render_dot_tree(root, visibility_level=VisibilityLevel.BIG_PICTURE)
         
         rospy.on_shutdown(functools.partial(self.shutdown, behaviour_tree))
         
@@ -114,7 +114,7 @@ class PyTree():
         
         move_base_tasks.add_children([check_move_base_disabled, scan_base])
         
-        scan_servos.add_children([pan_head_left, relax_servos, idle, pan_head_right, relax_servos, idle])
+        scan_servos.add_children([pan_head_left, relax_servos, pan_head_right, relax_servos])
         servo_tasks.add_children([check_servos_disabled, scan_servos])
         
         topics_to_bb.add_children([servos_active_to_bb, move_base_active_to_bb])

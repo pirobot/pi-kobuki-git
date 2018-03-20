@@ -36,7 +36,7 @@ class MoveBaseSimple(py_trees_ros.actions.ActionClient):
         rospy.loginfo("Connection to move_base server...")
 
     def initialise(self):
-        rospy.loginfo('Action set to move the robot to [%.2f meters and %.2f degrees]', self.simple_goal[0], self.simple_goal[1])
+        rospy.loginfo('Moving robot to [%.2f meters and %.2f degrees]', self.simple_goal[0], self.simple_goal[1])
         
 #         if self.counter > 0:
 #             self.simple_goal[0] += 0.1

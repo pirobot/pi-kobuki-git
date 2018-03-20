@@ -12,15 +12,15 @@
    
    <include file="$(find piko_bringup)/launch/navi_velocity_smoother.launch" />
 
-   <!-- include file="$(find piko_bringup)/launch/hokuyo.launch" /-->
+   <include file="$(find piko_bringup)/launch/hokuyo.launch" />
    
-   <!-- include file="$(find piko_bringup)/launch/laser_filter.launch" / -->
+   <include file="$(find piko_bringup)/launch/laser_filter.launch" />
    
    <include file="$(find piko_bringup)/launch/depthimage_to_laserscan.launch" />
    
    <include file="$(find piko_bringup)/launch/auto_docking.launch" />
    
-   <include file="$(find piko_bringup)/launch/openni2_skip_3.launch" />
+   <include file="$(find piko_bringup)/launch/openni2_skip_2.launch" />
    
    <!-- include file="$(find piko_bringup)/launch/gps.launch" if="$(arg gps)" /> -->
   

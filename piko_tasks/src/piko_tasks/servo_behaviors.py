@@ -45,9 +45,12 @@ class MoveHead(py_trees_ros.actions.ActionClient):
         self.goal.goal_time_tolerance = rospy.Duration(0.0)
             
     def initialise(self):
-        rospy.loginfo('Moving head to [pan=%.2f, tily=%.2f] radians', self.goal.trajectory.points[0].positions[0], self.goal.trajectory.points[0].positions[0])
+        rospy.loginfo('Moving head to [pan=%.2f, tilt=%.2f] radians', self.goal.trajectory.points[0].positions[0], self.goal.trajectory.points[0].positions[0])
         self.action_goal = self.goal
-    
+        
+#     def terminate(self, new_status=Status.INVALID):
+#         rospy.logwarn("TERMINATED!")
+                    
 class RelaxServos(py_trees.Behaviour):
     def __init__(self, name):
         self.servos_relaxed = False
@@ -56,7 +59,7 @@ class RelaxServos(py_trees.Behaviour):
         
     def update(self):
         try:
-            for joint in sorted(blackboard.joints):
+            for joint in blackboard.joints:
                 blackboard.relax_servo[joint]()
 
                 #blackboard.servo_speed[joint](blackboard.default_joint_speed)
@@ -65,9 +68,6 @@ class RelaxServos(py_trees.Behaviour):
             return Status.SUCCESS
         except:
             return Status.FAULURE
-        
-    def terminate(self, new_status=Status.SUCCESS):
-        pass
     
 class CheckServosReady(py_trees.Behaviour):
     def __init__(self, name, **kwargs):
@@ -103,20 +103,21 @@ class InitServos(py_trees.Behaviour):
             return Status.SUCCESS
         else:
             return Status.RUNNING
-        
-    def terminate(self, new_status=Status.SUCCESS):
-        pass
          
     def init_servos(self):
         blackboard.servo_speed = dict()
         blackboard.servo_position = dict()
         blackboard.enable_servo = dict()
         blackboard.relax_servo = dict()
+        blackboard.joint_states = dict()
+        
+        # Subscribe to the joint_states topic
+        rospy.Subscriber('joint_states', JointState, self.get_joint_states)
  
         # Connect to the set_speed services and define a position publisher for each servo
         rospy.loginfo("Waiting for joint controllers services...")
                  
-        for joint in sorted(blackboard.joints):
+        for joint in blackboard.joints:
             # The position controllers
             blackboard.servo_position[joint] = rospy.Publisher('/' + joint + '/command', Float64, queue_size=5)
             
@@ -146,6 +147,8 @@ class InitServos(py_trees.Behaviour):
             
         rospy.loginfo("Servos initialized")
         
-
+    def get_joint_states(self, msg):
+        for joint in msg.name:
+            blackboard.joint_states[joint] = msg.position[msg.name.index(joint)]
 
         

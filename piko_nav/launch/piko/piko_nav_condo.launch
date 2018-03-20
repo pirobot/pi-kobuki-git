@@ -1,13 +1,13 @@
 <launch>
   <arg name="sim" default="false" />
-  <arg name="map" default="condo-1.yaml" />
+  <arg name="map" default="condo-living-room.yaml" />
 
   <!-- Run the map server with a choice of maps -->
   <node name="map_server" pkg="map_server" type="map_server" args="$(find piko_nav)/maps/$(arg map)" output="screen" />
 
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen" clear_params="true">
   
-    <remap from="cmd_vel" to="/cmd_vel_mux/input/navi" if="$(arg sim)" />
+    <remap from="cmd_vel" to="/cmd_vel_mux/input/navi"                      if="$(arg sim)" />
     <remap from="cmd_vel" to="navi_velocity_smoother/move_base_raw_cmd_vel" unless="$(arg sim)" />
 
     <rosparam file="$(find piko_nav)/config/piko/config_common/costmap_common_params.yaml" command="load" ns="global_costmap" />
@@ -24,5 +24,7 @@
     
     <param name="global_costmap/obstacle_layer/point_cloud_head_camera/topic" value="/camera/depth/points" if="$(arg sim)" />
   </node>
+  
+  <!-- include file="$(find piko_nav)/launch/amcl.launch" /-->
   
 </launch>
